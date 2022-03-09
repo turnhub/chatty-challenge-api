@@ -41,7 +41,7 @@ if config_env() == :prod do
       """
 
   config :chatty, ChattyWeb.Endpoint,
-    url: [host: System.get_env("APP_NAME") <> ".gigalixirapp.com", port: 443],
+    url: [host: System.get_env("APP_NAME") <> ".gigalixirapp.com", scheme: "https", port: 443],
     http: [
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
