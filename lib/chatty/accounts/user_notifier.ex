@@ -8,7 +8,7 @@ defmodule Chatty.Accounts.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"MyApp", "contact@example.com"})
+      |> from({"Turn.io - Chatty Coding Challenge", "info@turn.io"})
       |> subject(subject)
       |> text_body(body)
 
