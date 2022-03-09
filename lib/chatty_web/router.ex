@@ -89,4 +89,12 @@ defmodule ChattyWeb.Router do
     get "/users/confirm/:token", UserConfirmationController, :edit
     post "/users/confirm/:token", UserConfirmationController, :update
   end
+
+  scope "/api" do
+    pipe_through :api
+
+    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: ChattyWeb.Schema, interface: :playground
+
+    forward "/", Absinthe.Plug, schema: ChattyWeb.Schema
+  end
 end
