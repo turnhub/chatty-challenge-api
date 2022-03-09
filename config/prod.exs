@@ -48,6 +48,6 @@ config :logger, level: :info
 #
 # Check `Plug.SSL` for all available options in `force_ssl`.
 
-config :sample, Chatty.Mailer,
+config :chatty, Chatty.Mailer,
   adapter: Swoosh.Adapters.Mandrill,
   api_key: System.get_env("MANDRILL_API_KEY")
