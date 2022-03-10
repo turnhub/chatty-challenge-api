@@ -10,9 +10,16 @@
       <li>
         <a href="#">Coding challenge documentation</a>
       </li>
-      <li>
-        <a href={"#{Routes.page_url(@conn, :index)}api/graphiql"} target="_blank">GraphQL API Explorer</a>
-      </li>
+
+      <%= if @current_user do %>
+        <li>
+          <a href={"#{Routes.page_url(@conn, :index)}api/graphiql"} target="_blank">GraphQL API Explorer</a>
+        </li>
+      <% else %>
+        <li>
+          Log in to access the GraphQL API Explorer
+        </li>
+      <% end %>
     </ul>
   </article>
   <article class="column">

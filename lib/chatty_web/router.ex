@@ -13,8 +13,10 @@ defmodule ChattyWeb.Router do
     plug :fetch_current_user
   end
 
-  pipeline :api do
+  pipeline :graphql do
+    plug :fetch_session
     plug :accepts, ["json"]
+    plug ChattyWeb.Context
   end
 
   scope "/", ChattyWeb do
@@ -91,10 +93,22 @@ defmodule ChattyWeb.Router do
   end
 
   scope "/api" do
-    pipe_through :api
+    pipe_through :graphql
 
-    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: ChattyWeb.Schema, interface: :playground
+    forward "/graphiql", Absinthe.Plug.GraphiQL,
+      schema: ChattyWeb.Schema,
+      default_headers: {__MODULE__, :graphiql_headers}
 
     forward "/", Absinthe.Plug, schema: ChattyWeb.Schema
+  end
+
+  def graphiql_headers(conn) do
+    {user_token, _conn} = ensure_user_token(conn)
+
+    if user_token do
+      %{"Authorization" => "Bearer " <> Base.encode64(user_token)}
+    else
+      %{}
+    end
   end
 end
