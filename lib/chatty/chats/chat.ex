@@ -1,6 +1,7 @@
 defmodule Chatty.Chats.Chat do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Chatty.Accounts.User
   alias Chatty.Messages.Message
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -10,6 +11,7 @@ defmodule Chatty.Chats.Chat do
     field :from_name, :string
 
     has_many :messages, Message
+    belongs_to :user, User
 
     timestamps()
   end
@@ -18,6 +20,6 @@ defmodule Chatty.Chats.Chat do
   def changeset(chat, attrs) do
     chat
     |> cast(attrs, [:from_name, :fromNumber])
-    |> validate_required([:from_name, :fromNumber])
+    |> validate_required([:from_name, :fromNumber, :user_id])
   end
 end

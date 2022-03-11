@@ -7,6 +7,8 @@ defmodule Chatty.Repo.Migrations.CreateChats do
       add :from_name, :string
       add :fromNumber, :string
 
+      add :user_id, references(:users, type: :binary_id), null: false
+
       timestamps()
     end
   end
