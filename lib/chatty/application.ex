@@ -15,9 +15,10 @@ defmodule Chatty.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Chatty.PubSub},
       # Start the Endpoint (http/https)
-      ChattyWeb.Endpoint
+      ChattyWeb.Endpoint,
       # Start a worker by calling: Chatty.Worker.start_link(arg)
       # {Chatty.Worker, arg}
+      Chatty.MockDataGenerator
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

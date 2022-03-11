@@ -7,7 +7,7 @@ defmodule Chatty.Chats.Chat do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "chats" do
-    field :fromNumber, :string
+    field :from_number, :string
     field :from_name, :string
 
     has_many :messages, Message
@@ -19,7 +19,7 @@ defmodule Chatty.Chats.Chat do
   @doc false
   def changeset(chat, attrs) do
     chat
-    |> cast(attrs, [:from_name, :fromNumber])
-    |> validate_required([:from_name, :fromNumber, :user_id])
+    |> cast(attrs, [:from_name, :from_number, :user_id])
+    |> validate_required([:from_name, :from_number, :user_id])
   end
 end

@@ -5,7 +5,7 @@ defmodule Chatty.Repo.Migrations.CreateChats do
     create table(:chats, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :from_name, :string
-      add :fromNumber, :string
+      add :from_number, :string
 
       add :user_id, references(:users, type: :binary_id), null: false
 
