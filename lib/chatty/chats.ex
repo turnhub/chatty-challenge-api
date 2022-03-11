@@ -1,4 +1,5 @@
 defmodule Chatty.Chats do
+  import Ecto.Query
   alias Chatty.Chats.Chat
   alias Chatty.Repo
 
@@ -13,6 +14,13 @@ defmodule Chatty.Chats do
   """
   def list_chats do
     Repo.all(Chat)
+  end
+
+  def list_chats_for_user(user) do
+    Chat
+    |> where(user_id: ^user.id)
+    |> order_by(desc: :inserted_at)
+    |> Repo.all()
   end
 
   @doc """
