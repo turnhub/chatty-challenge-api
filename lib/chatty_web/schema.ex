@@ -8,14 +8,20 @@ defmodule ChattyWeb.Schema do
   alias ChattyWeb.Resolvers
 
   query do
-    @desc "Get all chats"
+    @desc "List all your chats"
     field :chats, list_of(:chat) do
       resolve(&Resolvers.Chats.list_chats/3)
+    end
+
+    @desc "List all messages for a chat"
+    field :messages, list_of(:message) do
+      arg(:chat_id, non_null(:id))
+      resolve(&Resolvers.Chats.list_chat_messages/3)
     end
   end
 
   mutation do
-    @desc "Log ing"
+    @desc "Log in with username and password and obtain an API access token"
     field :login, type: :account do
       arg(:email, non_null(:string))
       arg(:password, non_null(:string))

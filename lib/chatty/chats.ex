@@ -63,6 +63,8 @@ defmodule Chatty.Chats do
   """
   def get_chat!(id), do: Repo.get!(Chat, id)
 
+  def get_chat(id), do: Repo.get(Chat, id)
+
   @doc """
   Creates a chat.
 

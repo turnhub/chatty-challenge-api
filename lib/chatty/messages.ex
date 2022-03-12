@@ -8,16 +8,23 @@ defmodule Chatty.Messages do
   alias Chatty.Messages.Message
 
   @doc """
-  Returns the list of message.
+  Returns the list of messages.
 
   ## Examples
 
-      iex> list_message()
+      iex> list_messages()
       [%Message{}, ...]
 
   """
-  def list_message do
+  def list_messages do
     Repo.all(Message)
+  end
+
+  def list_chat_messages(chat_id) do
+    Message
+    |> where(chat_id: ^chat_id)
+    |> order_by(desc: :inserted_at)
+    |> Repo.all()
   end
 
   @doc """

@@ -1,5 +1,6 @@
 defmodule ChattyWeb.Resolvers.Chats do
   alias Chatty.Chats
+  alias Chatty.Messages
 
   def list_chats(_parent, _args, %{context: %{current_user: user}}) do
     chats =
@@ -10,6 +11,21 @@ defmodule ChattyWeb.Resolvers.Chats do
   end
 
   def list_chats(_parent, _args, _resolution) do
+    {:error, "You are not logged in"}
+  end
+
+  def list_chat_messages(_parent, %{chat_id: chat_id}, %{context: %{current_user: user}}) do
+    with chat when not is_nil(chat) <- Chats.get_chat(chat_id),
+         true <- chat.user_id == user.id do
+      messages = Messages.list_chat_messages(chat_id)
+
+      {:ok, messages}
+    else
+      _ -> {:error, "Chat not found"}
+    end
+  end
+
+  def list_chat_messages(_parent, _args, _resolution) do
     {:error, "You are not logged in"}
   end
 
