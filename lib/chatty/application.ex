@@ -18,7 +18,7 @@ defmodule Chatty.Application do
       ChattyWeb.Endpoint,
       # Start a worker by calling: Chatty.Worker.start_link(arg)
       # {Chatty.Worker, arg}
-      Chatty.MockDataGenerator
+      Chatty.Scheduler
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

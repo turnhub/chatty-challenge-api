@@ -1,5 +1,4 @@
-defmodule Chatty.MockDataGenerator do
-  use GenServer
+defmodule Chatty.Mocks do
   require Logger
   alias Chatty.Accounts
   alias Chatty.Chats
@@ -7,32 +6,14 @@ defmodule Chatty.MockDataGenerator do
   alias Chatty.Mocks.Names
   alias Chatty.Mocks.Numbers
   alias Chatty.Mocks.Quotes
+  alias Chatty.Repo
 
-  @interval_seconds 45
-
-  def start_link(_opts) do
-    GenServer.start_link(__MODULE__, %{})
+  def clean_all_data do
+    Repo.delete_all(Chatty.Messages.Message)
+    Repo.delete_all(Chatty.Chats.Chat)
   end
 
-  @impl true
-  def init(state) do
-    do_recurrent_thing(state)
-    schedule_work()
-    {:ok, state}
-  end
-
-  @impl true
-  def handle_info(:do_work, state) do
-    do_recurrent_thing(state)
-    schedule_work()
-    {:noreply, state}
-  end
-
-  defp schedule_work do
-    Process.send_after(self(), :do_work, @interval_seconds * 1000)
-  end
-
-  defp do_recurrent_thing(_state) do
+  def generate_more_mock_data() do
     for user <- Accounts.list_users() do
       generate_mock_data_for_user(user)
     end

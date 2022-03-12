@@ -47,6 +47,15 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Quantum jobs
+config :chatty, Chatty.Scheduler,
+  jobs: [
+    # Every 30 seconds, generate more mock data
+    {{:extended, "*/30 * * * * *"}, {Chatty.Mocks, :generate_more_mock_data, []}},
+    # Every 4 hours, clean all data
+    {"0 */4 * * *", {Chatty.Mocks, :clean_all_data, []}}
+  ]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
