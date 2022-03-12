@@ -5,7 +5,6 @@ defmodule Chatty.Messages do
 
   import Ecto.Query, warn: false
   alias Chatty.Repo
-
   alias Chatty.Messages.Message
 
   @doc """

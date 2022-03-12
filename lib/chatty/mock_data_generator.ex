@@ -8,6 +8,8 @@ defmodule Chatty.MockDataGenerator do
   alias Chatty.Mocks.Numbers
   alias Chatty.Mocks.Quotes
 
+  @interval_seconds 45
+
   def start_link(_opts) do
     GenServer.start_link(__MODULE__, %{})
   end
@@ -27,7 +29,7 @@ defmodule Chatty.MockDataGenerator do
   end
 
   defp schedule_work do
-    Process.send_after(self(), :do_work, 15_000)
+    Process.send_after(self(), :do_work, @interval_seconds * 1000)
   end
 
   defp do_recurrent_thing(_state) do
@@ -42,7 +44,7 @@ defmodule Chatty.MockDataGenerator do
     chats = Chats.list_chats_for_user(user)
     chats_count = Enum.count(chats)
 
-    generate_new_chat? = chats_count == 0 or :rand.uniform(100) <= rem(abs(15 - chats_count), 15)
+    generate_new_chat? = chats_count == 0 or :rand.uniform(100) <= rem(abs(13 - chats_count), 13)
 
     if generate_new_chat? do
       generate_mock_chat_for_user(user, chats)
@@ -85,9 +87,10 @@ defmodule Chatty.MockDataGenerator do
   end
 
   defp generate_mock_mesage_for_chats(user, chats) do
-    if :rand.uniform(100) < 50 do
+    if :rand.uniform(100) < 40 do
       do_generate_mock_mesage_for_chats(user, chats)
     else
+      Logger.info("Skipping generating mock message for #{user.email}")
       {:ok, nil}
     end
   end

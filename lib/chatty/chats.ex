@@ -1,6 +1,7 @@
 defmodule Chatty.Chats do
   import Ecto.Query
   alias Chatty.Chats.Chat
+  alias Chatty.Messages.Message
   alias Chatty.Repo
 
   @doc """
@@ -13,14 +14,37 @@ defmodule Chatty.Chats do
 
   """
   def list_chats do
-    Repo.all(Chat)
+    Chat
+    |> Repo.all()
   end
 
   def list_chats_for_user(user) do
-    Chat
-    |> where(user_id: ^user.id)
-    |> order_by(desc: :inserted_at)
-    |> Repo.all()
+    chats_query =
+      from c in Chat,
+        where: c.user_id == ^user.id,
+        order_by: [desc: c.inserted_at]
+
+    Repo.all(chats_query)
+  end
+
+  def list_chats_for_user_with_last_message(user) do
+    ranking_query =
+      from m in Message,
+        select: %{id: m.id, row_number: over(row_number(), :chats_partition)},
+        windows: [chats_partition: [partition_by: :chat_id, order_by: [desc: :inserted_at]]]
+
+    last_messages_query =
+      from m in Message,
+        join: r in subquery(ranking_query),
+        on: m.id == r.id and r.row_number <= 1
+
+    chats_query =
+      from c in Chat,
+        where: c.user_id == ^user.id,
+        order_by: [desc: c.inserted_at],
+        preload: [messages: ^last_messages_query]
+
+    Repo.all(chats_query)
   end
 
   @doc """
