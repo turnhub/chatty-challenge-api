@@ -29,6 +29,19 @@ defmodule ChattyWeb.Resolvers.Chats do
     {:error, "You are not logged in"}
   end
 
+  def send_message(_parent, %{chat_id: chat_id, text: text}, %{context: %{current_user: user}}) do
+    with chat when not is_nil(chat) <- Chats.get_chat(chat_id),
+         true <- chat.user_id == user.id do
+      Messages.create_message(%{chat_id: chat_id, text: text, direction: :outbound})
+    else
+      _ -> {:error, "Chat not found"}
+    end
+  end
+
+  def send_message(_parent, _args, _resolution) do
+    {:error, "You are not logged in"}
+  end
+
   defp build_chat_dtos(chats) do
     for chat <- chats do
       last_message =

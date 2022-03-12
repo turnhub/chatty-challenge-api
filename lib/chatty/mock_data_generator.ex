@@ -77,7 +77,8 @@ defmodule Chatty.MockDataGenerator do
       {:ok, _messsage} =
         Messages.create_message(%{
           chat_id: chat.id,
-          text: Quotes.random_quote()
+          text: Quotes.random_quote(),
+          direction: :inbound
         })
     end
 
@@ -113,7 +114,8 @@ defmodule Chatty.MockDataGenerator do
     {:ok, _messsage} =
       Messages.create_message(%{
         chat_id: random_chat_id,
-        text: Quotes.random_quote()
+        text: Quotes.random_quote(),
+        direction: :inbound
       })
 
     Logger.info("Created mock message for #{user.email} (chat #{random_chat_id})")

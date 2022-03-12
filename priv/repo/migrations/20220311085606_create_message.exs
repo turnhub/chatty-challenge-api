@@ -4,10 +4,13 @@ defmodule Chatty.Repo.Migrations.CreateMessages do
   def change do
     create table(:messages, primary_key: false) do
       add :id, :binary_id, primary_key: true
-      add :text, :string
+      add :direction, :string, null: false
+      add :text, :text, null: false
       add :chat_id, references(:chats, type: :binary_id), null: false
 
       timestamps()
     end
+
+    create index(:messages, [:chat_id, :inserted_at])
   end
 end

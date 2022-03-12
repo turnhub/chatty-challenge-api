@@ -6,6 +6,7 @@ defmodule Chatty.Messages.Message do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "messages" do
+    field :direction, Ecto.Enum, values: [:inbound, :outbound]
     field :text, :string
 
     belongs_to :chat, Chat
@@ -16,7 +17,7 @@ defmodule Chatty.Messages.Message do
   @doc false
   def changeset(message, attrs) do
     message
-    |> cast(attrs, [:text, :chat_id])
-    |> validate_required([:text, :chat_id])
+    |> cast(attrs, [:direction, :text, :chat_id])
+    |> validate_required([:direction, :text, :chat_id])
   end
 end

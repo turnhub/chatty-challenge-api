@@ -27,5 +27,12 @@ defmodule ChattyWeb.Schema do
       arg(:password, non_null(:string))
       resolve(&Resolvers.Accounts.login/3)
     end
+
+    @desc "Log in with username and password and obtain an API access token"
+    field :send_message, type: :message do
+      arg(:chat_id, non_null(:id))
+      arg(:text, non_null(:string))
+      resolve(&Resolvers.Chats.send_message/3)
+    end
   end
 end
