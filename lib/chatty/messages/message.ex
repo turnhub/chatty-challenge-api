@@ -16,7 +16,7 @@ defmodule Chatty.Messages.Message do
   @doc false
   def changeset(message, attrs) do
     message
-    |> cast(attrs, [:text])
+    |> cast(attrs, [:text, :chat_id])
     |> validate_required([:text, :chat_id])
   end
 end
