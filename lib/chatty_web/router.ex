@@ -97,6 +97,7 @@ defmodule ChattyWeb.Router do
 
     forward "/graphiql", Absinthe.Plug.GraphiQL,
       schema: ChattyWeb.Schema,
+      socket: ChattyWeb.UserSocket,
       default_headers: {__MODULE__, :graphiql_headers}
 
     forward "/", Absinthe.Plug, schema: ChattyWeb.Schema

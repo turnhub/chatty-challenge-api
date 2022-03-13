@@ -16,6 +16,7 @@ defmodule Chatty.Application do
       {Phoenix.PubSub, name: Chatty.PubSub},
       # Start the Endpoint (http/https)
       ChattyWeb.Endpoint,
+      {Absinthe.Subscription, ChattyWeb.Endpoint},
       # Start a worker by calling: Chatty.Worker.start_link(arg)
       # {Chatty.Worker, arg}
       Chatty.Scheduler
