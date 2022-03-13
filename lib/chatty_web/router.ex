@@ -98,18 +98,19 @@ defmodule ChattyWeb.Router do
     forward "/graphiql", Absinthe.Plug.GraphiQL,
       schema: ChattyWeb.Schema,
       socket: ChattyWeb.UserSocket,
-      default_headers: {__MODULE__, :graphiql_headers}
+      # default_headers: {__MODULE__, :graphiql_headers},
+      interface: :playground
 
     forward "/", Absinthe.Plug, schema: ChattyWeb.Schema
   end
 
-  def graphiql_headers(conn) do
-    {user_token, _conn} = ensure_user_token(conn)
+  # def graphiql_headers(conn) do
+  #   {user_token, _conn} = ensure_user_token(conn)
 
-    if user_token do
-      %{"Authorization" => "Bearer " <> Base.encode64(user_token)}
-    else
-      %{}
-    end
-  end
+  #   if user_token do
+  #     %{"Authorization" => "Bearer " <> Base.encode64(user_token)}
+  #   else
+  #     %{}
+  #   end
+  # end
 end
