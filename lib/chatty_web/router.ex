@@ -92,12 +92,12 @@ defmodule ChattyWeb.Router do
     post "/users/confirm/:token", UserConfirmationController, :update
   end
 
-  scope "/api" do
+  scope "/graphql" do
     pipe_through :graphql
 
     forward "/graphiql", Absinthe.Plug.GraphiQL,
       schema: ChattyWeb.Schema,
-      socket: ChattyWeb.UserSocket,
+      socket: ChattyWeb.Channels.UserSocket,
       # default_headers: {__MODULE__, :graphiql_headers},
       interface: :playground
 

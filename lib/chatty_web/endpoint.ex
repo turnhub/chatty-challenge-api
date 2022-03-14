@@ -13,7 +13,10 @@ defmodule ChattyWeb.Endpoint do
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
-  socket("/socket", ChattyWeb.UserSocket, websocket: [check_origin: false])
+  socket("/socket", ChattyWeb.Channels.UserSocket, websocket: [check_origin: false])
+
+  socket "/graphql/ws", ChattyWeb.Channels.GraphqlSocket,
+    websocket: [path: "", subprotocols: ["graphql-transport-ws"], check_origin: false]
 
   # Serve at "/" the static files from "priv/static" directory.
   #

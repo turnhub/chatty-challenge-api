@@ -1,4 +1,10 @@
-defmodule ChattyWeb.UserSocket do
+defmodule ChattyWeb.Channels.UserSocket do
+  @moduledoc """
+  Phoenix socket used for GraphQL subscription only inside the bundled GraphiQL interface.
+  Clients should not use this phoneix-specific socket for graphQL subscriptions, but rather
+  ChattyWeb.Channels.GraphqlSocket, which implements the graphql standard protocl.
+  """
+
   use Phoenix.Socket
 
   use Absinthe.Phoenix.Socket,
