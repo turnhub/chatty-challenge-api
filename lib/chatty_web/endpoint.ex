@@ -13,7 +13,7 @@ defmodule ChattyWeb.Endpoint do
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
-  socket("/socket", ChattyWeb.UserSocket, websocket: true)
+  socket("/socket", ChattyWeb.UserSocket, websocket: [check_origin: false])
 
   # Serve at "/" the static files from "priv/static" directory.
   #
