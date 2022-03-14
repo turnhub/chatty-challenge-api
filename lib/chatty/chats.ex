@@ -28,16 +28,19 @@ defmodule Chatty.Chats do
     Repo.all(chats_query)
   end
 
+  @recent_chat_messages_to_preload 1
   def list_chats_for_user_with_last_message(user) do
-    ranking_query =
+    # Window-based preload as per the final example in
+    # https://hexdocs.pm/ecto/Ecto.Query.html#preload/3-preload-queries
+    last_messages_per_chat_query =
       from m in Message,
         select: %{id: m.id, row_number: over(row_number(), :chats_partition)},
         windows: [chats_partition: [partition_by: :chat_id, order_by: [desc: :inserted_at]]]
 
     last_messages_query =
       from m in Message,
-        join: r in subquery(ranking_query),
-        on: m.id == r.id and r.row_number <= 1
+        join: r in subquery(last_messages_per_chat_query),
+        on: m.id == r.id and r.row_number <= @recent_chat_messages_to_preload
 
     chats_query =
       from c in Chat,
