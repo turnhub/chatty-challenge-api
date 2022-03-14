@@ -2,14 +2,14 @@ defmodule Chatty.Mocks do
   require Logger
   alias Chatty.Accounts
   alias Chatty.Chats
-  alias Chatty.Messages
+  alias Chatty.Chats
   alias Chatty.Mocks.Names
   alias Chatty.Mocks.Numbers
   alias Chatty.Mocks.Quotes
   alias Chatty.Repo
 
   def clean_all_data do
-    Repo.delete_all(Chatty.Messages.Message)
+    Repo.delete_all(Chatty.Chats.Message)
     Repo.delete_all(Chatty.Chats.Chat)
   end
 
@@ -56,7 +56,7 @@ defmodule Chatty.Mocks do
 
     for _ <- 0..:rand.uniform(5) do
       {:ok, _messsage} =
-        Messages.create_message(%{
+        Chats.create_message(%{
           chat_id: chat.id,
           text: Quotes.random_quote(),
           direction: :inbound
@@ -93,7 +93,7 @@ defmodule Chatty.Mocks do
       |> Enum.random()
 
     {:ok, _messsage} =
-      Messages.create_message(%{
+      Chats.create_message(%{
         chat_id: random_chat_id,
         text: Quotes.random_quote(),
         direction: :inbound

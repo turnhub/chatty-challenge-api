@@ -2,7 +2,7 @@ defmodule Chatty.Chats.Chat do
   use Ecto.Schema
   import Ecto.Changeset
   alias Chatty.Accounts.User
-  alias Chatty.Messages.Message
+  alias Chatty.Chats.Message
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id

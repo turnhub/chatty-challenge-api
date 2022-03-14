@@ -39,43 +39,12 @@ defmodule ChattyWeb.Schema do
   subscription do
     field :new_chat_message, :message do
       arg(:chat_id, non_null(:id))
+      config(&Resolvers.Chats.new_chat_message_config/2)
+    end
 
-      # The topic function is used to determine what topic a given subscription
-      # cares about based on its arguments. You can think of it as a way to tell the
-      # difference between
-      # subscription {
-      #   commentAdded(repoName: "absinthe-graphql/absinthe") { content }
-      # }
-      #
-      # and
-      #
-      # subscription {
-      #   commentAdded(repoName: "elixir-lang/elixir") { content }
-      # }
-      #
-      # If needed, you can also provide a list of topics:
-      #   {:ok, topic: ["absinthe-graphql/absinthe", "elixir-lang/elixir"]}
-      config(fn args, _ ->
-        {:ok, topic: args.chat_id}
-      end)
-
-      # this tells Absinthe to run any subscriptions with this field every time
-      # the :submit_comment mutation happens.
-      # It also has a topic function used to find what subscriptions care about
-      # this particular comment
-      trigger(:send_message,
-        topic: fn message ->
-          message.chat_id
-        end
-      )
-
-      resolve(fn message, _, _ ->
-        # this function is often not actually necessary, as the default resolver
-        # for subscription functions will just do what we're doing here.
-        # The point is, subscription resolvers receive whatever value triggers
-        # the subscription, in our case a message.
-        {:ok, message}
-      end)
+    field :chats_list_changed, list_of(:chat) do
+      config(&Resolvers.Chats.chats_list_changed_config/2)
+      resolve(&Resolvers.Chats.list_chats/3)
     end
   end
 end

@@ -8,25 +8,18 @@
     <h2>Resources</h2>
     <ul>
       <li>
+        <a href={"#{Routes.page_url(@conn, :index)}api/graphiql"} target="_blank">GraphQL API Explorer</a>
+      </li>
+      <li>
         <a href="#">Coding challenge documentation</a>
       </li>
-
-      <%= if @current_user do %>
-        <li>
-          <a href={"#{Routes.page_url(@conn, :index)}api/graphiql"} target="_blank">GraphQL API Explorer</a>
-        </li>
-      <% else %>
-        <li>
-          Log in to access the GraphQL API Explorer
-        </li>
-      <% end %>
     </ul>
   </article>
   <article class="column">
     <h2>Help</h2>
     <ul>
       <li>
-        <a href="mailto:info@turn.io">info@turn.io</a>
+        <a href="mailto:federico@turn.io">Send us an email</a>
       </li>
     </ul>
   </article>

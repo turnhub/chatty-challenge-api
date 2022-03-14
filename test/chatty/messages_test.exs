@@ -1,59 +1,59 @@
-defmodule Chatty.MessagesTest do
+defmodule Chatty.ChatsTest do
   use Chatty.DataCase
 
-  alias Chatty.Messages
+  alias Chatty.Chats
 
   describe "message" do
-    alias Chatty.Messages.Message
+    alias Chatty.Chats.Message
 
-    import Chatty.MessagesFixtures
+    import Chatty.ChatsFixtures
 
     @invalid_attrs %{text: nil}
 
     test "list_message/0 returns all message" do
       message = message_fixture()
-      assert Messages.list_message() == [message]
+      assert Chats.list_message() == [message]
     end
 
     test "get_message!/1 returns the message with given id" do
       message = message_fixture()
-      assert Messages.get_message!(message.id) == message
+      assert Chats.get_message!(message.id) == message
     end
 
     test "create_message/1 with valid data creates a message" do
       valid_attrs = %{text: "some text"}
 
-      assert {:ok, %Message{} = message} = Messages.create_message(valid_attrs)
+      assert {:ok, %Message{} = message} = Chats.create_message(valid_attrs)
       assert message.text == "some text"
     end
 
     test "create_message/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Messages.create_message(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Chats.create_message(@invalid_attrs)
     end
 
     test "update_message/2 with valid data updates the message" do
       message = message_fixture()
       update_attrs = %{text: "some updated text"}
 
-      assert {:ok, %Message{} = message} = Messages.update_message(message, update_attrs)
+      assert {:ok, %Message{} = message} = Chats.update_message(message, update_attrs)
       assert message.text == "some updated text"
     end
 
     test "update_message/2 with invalid data returns error changeset" do
       message = message_fixture()
-      assert {:error, %Ecto.Changeset{}} = Messages.update_message(message, @invalid_attrs)
-      assert message == Messages.get_message!(message.id)
+      assert {:error, %Ecto.Changeset{}} = Chats.update_message(message, @invalid_attrs)
+      assert message == Chats.get_message!(message.id)
     end
 
     test "delete_message/1 deletes the message" do
       message = message_fixture()
-      assert {:ok, %Message{}} = Messages.delete_message(message)
-      assert_raise Ecto.NoResultsError, fn -> Messages.get_message!(message.id) end
+      assert {:ok, %Message{}} = Chats.delete_message(message)
+      assert_raise Ecto.NoResultsError, fn -> Chats.get_message!(message.id) end
     end
 
     test "change_message/1 returns a message changeset" do
       message = message_fixture()
-      assert %Ecto.Changeset{} = Messages.change_message(message)
+      assert %Ecto.Changeset{} = Chats.change_message(message)
     end
   end
 end

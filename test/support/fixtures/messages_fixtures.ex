@@ -1,7 +1,7 @@
-defmodule Chatty.MessagesFixtures do
+defmodule Chatty.ChatsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Chatty.Messages` context.
+  entities via the `Chatty.Chats` context.
   """
 
   @doc """
@@ -13,7 +13,7 @@ defmodule Chatty.MessagesFixtures do
       |> Enum.into(%{
         text: "some text"
       })
-      |> Chatty.Messages.create_message()
+      |> Chatty.Chats.create_message()
 
     message
   end

@@ -1,4 +1,4 @@
-defmodule Chatty.Messages.Message do
+defmodule Chatty.Chats.Message do
   use Ecto.Schema
   import Ecto.Changeset
   alias Chatty.Chats.Chat
