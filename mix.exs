@@ -37,6 +37,7 @@ defmodule Chatty.MixProject do
       {:absinthe_plug, "~> 1.5"},
       {:absinthe, "~> 1.6.0"},
       {:bcrypt_elixir, "~> 2.0"},
+      {:cors_plug, "~> 3.0"},
       {:ecto_sql, "~> 3.6"},
       {:esbuild, "~> 0.3", runtime: Mix.env() == :dev},
       {:floki, ">= 0.30.0", only: :test},
