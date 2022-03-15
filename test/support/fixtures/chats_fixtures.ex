@@ -18,4 +18,18 @@ defmodule Chatty.ChatsFixtures do
 
     chat
   end
+
+  @doc """
+  Generate a message.
+  """
+  def message_fixture(attrs \\ %{}) do
+    {:ok, message} =
+      attrs
+      |> Enum.into(%{
+        text: "some text"
+      })
+      |> Chatty.Chats.create_message()
+
+    message
+  end
 end

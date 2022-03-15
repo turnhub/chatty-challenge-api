@@ -8,7 +8,7 @@ defmodule ChattyWeb.Schema do
   alias ChattyWeb.Resolvers
 
   query do
-    @desc "List all your chats"
+    @desc "List all your chats, each of them has a preview of the last message in the chat."
     field :chats, list_of(:chat) do
       resolve(&Resolvers.Chats.list_chats/3)
     end
@@ -28,7 +28,7 @@ defmodule ChattyWeb.Schema do
       resolve(&Resolvers.Accounts.login/3)
     end
 
-    @desc "Log in with username and password and obtain an API access token"
+    @desc "Send a message in a chat"
     field :send_message, type: :message do
       arg(:chat_id, non_null(:id))
       arg(:text, non_null(:string))
@@ -37,14 +37,19 @@ defmodule ChattyWeb.Schema do
   end
 
   subscription do
+    @desc "Subscribe to get notified whenever a new messages is sent/received in a chat"
     field :new_chat_message, :message do
       arg(:chat_id, non_null(:id))
       config(&Resolvers.Chats.new_chat_message_config/2)
     end
 
-    field :chats_list_changed, list_of(:chat) do
-      config(&Resolvers.Chats.chats_list_changed_config/2)
-      resolve(&Resolvers.Chats.list_chats/3)
+    @desc """
+    Subscribe to get notified whenever one of your chats is updated (e.g. new message in the chat)
+    or a new chat is created for your account.
+    """
+    field :chat_changed, :chat do
+      config(&Resolvers.Chats.chat_changed_config/2)
+      resolve(&Resolvers.Chats.chat_changed_resolver/3)
     end
   end
 end

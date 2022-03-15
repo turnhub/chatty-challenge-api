@@ -1,11 +1,11 @@
 defmodule ChattyWeb.Resolvers.Chats do
   alias Chatty.Chats
-  alias Chatty.Chats
+  alias Chatty.Chats.Chat
 
   def list_chats(_parent, _args, %{context: %{current_user: user}}) do
     chats =
       Chats.list_chats_for_user_with_last_message(user)
-      |> build_chat_dtos()
+      |> build_chats_dtos()
 
     {:ok, chats}
   end
@@ -55,25 +55,39 @@ defmodule ChattyWeb.Resolvers.Chats do
     {:error, "You are not logged in"}
   end
 
-  def chats_list_changed_config(_args, %{context: %{current_user: user}}) when is_struct(user) do
+  def chat_changed_config(_args, %{context: %{current_user: user}}) when is_struct(user) do
     {:ok, topic: user.id}
   end
 
-  def chats_list_changed_config(_args, _resolution) do
+  def chat_changed_config(_args, _resolution) do
     {:error, "You are not logged in"}
   end
 
-  defp build_chat_dtos(chats) do
-    for chat <- chats do
-      last_message =
-        case chat.messages do
-          [m | _] -> m
-          _ -> nil
-        end
+  def chat_changed_resolver(chat_id, _, _) do
+    chat =
+      Chats.get_user_chat_with_last_message(chat_id)
+      |> build_chat_dto()
 
-      Map.from_struct(chat)
-      |> Map.put(:last_message, last_message)
-      |> Map.put(:contact, %{name: chat.from_name, phone_number: chat.from_number})
+    {:ok, chat}
+  end
+
+  defp build_chats_dtos(chats) do
+    for chat <- chats do
+      build_chat_dto(chat)
     end
   end
+
+  defp build_chat_dto(%Chat{} = chat) do
+    last_message =
+      case chat.messages do
+        [m | _] -> m
+        _ -> nil
+      end
+
+    Map.from_struct(chat)
+    |> Map.put(:last_message, last_message)
+    |> Map.put(:contact, %{name: chat.from_name, phone_number: chat.from_number})
+  end
+
+  defp build_chat_dto(_), do: nil
 end

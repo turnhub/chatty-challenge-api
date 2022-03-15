@@ -51,6 +51,18 @@ defmodule Chatty.Chats do
     Repo.all(chats_query)
   end
 
+  def get_user_chat_with_last_message(chat_id) do
+    last_messages_query =
+      from m in Message, order_by: [desc: :inserted_at], limit: @recent_chat_messages_to_preload
+
+    chat_query =
+      from c in Chat,
+        where: c.id == ^chat_id,
+        preload: [messages: ^last_messages_query]
+
+    Repo.one(chat_query)
+  end
+
   @doc """
   Gets a single chat.
 
@@ -189,11 +201,12 @@ defmodule Chatty.Chats do
       |> Repo.insert()
 
     with {:ok, message} <- insert_result do
-      %Message{chat: %Chat{user: %User{id: user_id}}} = Repo.preload(message, chat: :user)
+      %Message{chat: %Chat{id: chat_id, user: %User{id: user_id}}} =
+        Repo.preload(message, chat: :user)
 
       Absinthe.Subscription.publish(ChattyWeb.Endpoint, message, new_chat_message: message.chat_id)
 
-      Absinthe.Subscription.publish(ChattyWeb.Endpoint, nil, chats_list_changed: user_id)
+      Absinthe.Subscription.publish(ChattyWeb.Endpoint, chat_id, chat_changed: user_id)
 
       {:ok, message}
     end
