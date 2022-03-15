@@ -69,7 +69,7 @@ defmodule Chatty.Mocks do
   end
 
   defp generate_mock_mesage_for_chats(user, chats) do
-    if :rand.uniform(100) < 40 do
+    if :rand.uniform(100) < 55 do
       do_generate_mock_mesage_for_chats(user, chats)
     else
       Logger.info("Skipping generating mock message for #{user.email}")
