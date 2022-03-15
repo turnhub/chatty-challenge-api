@@ -4,22 +4,20 @@
 </section>
 
 <section class="row">
-  <article class="column">
+  <article>
     <h2>Resources</h2>
     <ul>
       <li>
-        <a href={"#{Routes.page_url(@conn, :index)}api/graphiql"} target="_blank">GraphQL API Explorer</a>
+        Please read the challenge instructions and documentation <a href="https://github.com/turnhub/chatty-challenge-app">here</a>.
       </li>
       <li>
-        <a href="#">Coding challenge documentation</a>
+        This is your API access token:<i> <%= if @current_user, do: @current_user_api_token, else: "Please login to see token" %></i>
       </li>
-    </ul>
-  </article>
-  <article class="column">
-    <h2>Help</h2>
-    <ul>
       <li>
-        <a href="mailto:federico@turn.io">Send us an email</a>
+        Explore the API in <a href={"#{Routes.page_url(@conn, :index)}graphql/graphiql"} target="_blank">GraphQL Playground</a> (remember to configure the Authentication header).
+      </li>
+      <li>
+        Contact us via <a href="mailto:federico@turn.io">email</a> in case of issues.
       </li>
     </ul>
   </article>

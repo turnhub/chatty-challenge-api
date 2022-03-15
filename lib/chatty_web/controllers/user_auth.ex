@@ -91,7 +91,11 @@ defmodule ChattyWeb.UserAuth do
   def fetch_current_user(conn, _opts) do
     {user_token, conn} = ensure_user_token(conn)
     user = user_token && Accounts.get_user_by_session_token(user_token)
-    assign(conn, :current_user, user)
+    api_token = user_token && Base.encode64(user_token)
+
+    conn
+    |> assign(:current_user, user)
+    |> assign(:current_user_api_token, api_token)
   end
 
   def ensure_user_token(conn) do
