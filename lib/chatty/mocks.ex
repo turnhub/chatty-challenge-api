@@ -13,6 +13,25 @@ defmodule Chatty.Mocks do
     Repo.delete_all(Chatty.Chats.Chat)
   end
 
+  def maybe_send_mock_reply(chat_id) do
+    if :rand.uniform(100) < 75 do
+      Task.start(fn ->
+        :timer.sleep(1500)
+
+        {:ok, _messsage} =
+          Chats.create_message(%{
+            chat_id: chat_id,
+            text: Quotes.random_quote(),
+            direction: :inbound
+          })
+
+        Logger.info("Sent mock reply to chat #{chat_id}")
+      end)
+    end
+
+    :ok
+  end
+
   def generate_more_mock_data() do
     for user <- Accounts.list_users() do
       generate_mock_data_for_user(user)

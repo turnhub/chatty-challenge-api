@@ -32,6 +32,7 @@ defmodule ChattyWeb.Resolvers.Chats do
   def send_message(_parent, %{chat_id: chat_id, text: text}, %{context: %{current_user: user}}) do
     with chat when not is_nil(chat) <- Chats.get_chat(chat_id),
          true <- chat.user_id == user.id do
+      Chatty.Mocks.maybe_send_mock_reply(chat_id)
       Chats.create_message(%{chat_id: chat_id, text: text, direction: :outbound})
     else
       _ -> {:error, "Chat not found"}
