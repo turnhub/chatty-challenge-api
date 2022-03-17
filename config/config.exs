@@ -52,8 +52,8 @@ config :chatty, Chatty.Scheduler,
   jobs: [
     # Every 30 seconds, generate more mock data
     {{:extended, "*/30 * * * * *"}, {Chatty.Mocks, :generate_more_mock_data, []}},
-    # Every 2 hours, clean all data
-    {"0 */2 * * *", {Chatty.Mocks, :clean_all_data, []}}
+    # Every 1 hours, clean all data
+    {"0 */1 * * *", {Chatty.Mocks, :clean_all_data, []}}
   ]
 
 # Import environment specific config. This must remain at the bottom
