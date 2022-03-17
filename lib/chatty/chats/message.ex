@@ -11,7 +11,7 @@ defmodule Chatty.Chats.Message do
 
     belongs_to :chat, Chat
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @doc false

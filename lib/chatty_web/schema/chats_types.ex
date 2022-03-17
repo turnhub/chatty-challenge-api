@@ -12,7 +12,7 @@ defmodule ChattyWeb.Schema.ChatsTypes do
   object :message do
     field :id, non_null(:id)
     field :direction, non_null(:message_direction)
-    field :inserted_at, non_null(:naive_datetime)
+    field :inserted_at, non_null(:datetime)
     field :text, non_null(:string)
   end
 

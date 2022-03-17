@@ -9,7 +9,7 @@ defmodule Chatty.Repo.Migrations.CreateChats do
 
       add :user_id, references(:users, type: :binary_id), null: false
 
-      timestamps()
+      timestamps(type: :utc_datetime)
     end
   end
 end

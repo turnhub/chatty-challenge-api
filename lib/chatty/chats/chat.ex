@@ -13,7 +13,7 @@ defmodule Chatty.Chats.Chat do
     has_many :messages, Message
     belongs_to :user, User
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @doc false

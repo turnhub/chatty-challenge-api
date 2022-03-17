@@ -8,7 +8,7 @@ defmodule Chatty.Repo.Migrations.CreateMessages do
       add :text, :text, null: false
       add :chat_id, references(:chats, type: :binary_id), null: false
 
-      timestamps()
+      timestamps(type: :utc_datetime)
     end
 
     create index(:messages, [:chat_id, :inserted_at])
