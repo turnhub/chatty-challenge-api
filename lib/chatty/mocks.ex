@@ -9,8 +9,10 @@ defmodule Chatty.Mocks do
   alias Chatty.Repo
 
   def clean_all_data do
-    Repo.delete_all(Chatty.Chats.Message)
-    Repo.delete_all(Chatty.Chats.Chat)
+    Repo.transaction(fn ->
+      Repo.delete_all(Chatty.Chats.Message)
+      Repo.delete_all(Chatty.Chats.Chat)
+    end)
   end
 
   def maybe_send_mock_reply(chat_id) do
